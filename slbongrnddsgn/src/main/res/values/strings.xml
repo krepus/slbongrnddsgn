@@ -5,8 +5,46 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+    <!-- dim -->
+    <dimen name="rpad">10dip</dimen>
+
+
 
     <!-- input strings -->
     <string name="hf_str">Slab thickness</string>
+    <string name="ks_str">Subgrade reaction</string>
+    <string name="reo_loc_str">Reinforcement location</string>
+    <string name="Pu_str">Ultimate load</string>
+    <string name="radius_str">Equivalent radius of loaded area</string>
+    <string name="load_cond_str">Loading condition</string>
+    <string name="wheel_spacing_str">Load spacing (for wheel loads)</string>
+    <string name="preferences_title_str">Settings</string>
+    <string name="DB_str">Bar diameter</string>
+    <string name="DB_spacing_str">Bar spacing</string>
+
+    <!-- PREF strings -->
+    <string name="UNIT">Slab thickness</string>
+    <string name="SI">SI</string>
+    <string name="Imperial">Imperial</string>
+    <string name="BARLIST">BARLIST</string>
+    <string name="barlist_SI">10 12 16 20 25 28 30 32 36</string>
+    <string name="barlist_Imperial">4 5 6 7 8 9 10 11 14</string>
+    <string name="CLEAR_SPACING">CLEAR_SPACING</string>
+    <string name="COVER">COVER</string>
+    <string name="FC">FC</string>
+    <string name="FYMAIN">FYMAIN</string>
+    <string name="fymain_str">Tension bar yield stress</string>
+    <string name="PHI_C">PHI_C</string>
+    <string name="phi_c_str">Concrete resistance factor</string>
+    <string name="PHI_S">PHI_S</string>
+    <string name="PHI_S_str">Reinforcement resistance factor</string>
+    <string name="BARLIST_RESET">BARLIST_RESET</string>
+
+
+    <array
+        name="units_array_entries">
+        <item>@string/SI</item>
+        <item>@string/Imperial</item>
+    </array>
 
 </resources>

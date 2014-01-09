@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <ListPreference
+            android:key="@string/UNIT"
+            android:summary="%s"
+            android:title="Unit"
+            android:dialogTitle="Design Unit"
+            android:entries="@array/units_array_entries"
+            android:entryValues="@array/units_array_entries"
+            android:defaultValue="@string/SI"/>
+
+    <EditTextPreference
+            android:key="@string/BARLIST"
+            android:title="Available bar sizes"
+            android:dialogMessage="Use bar no. (e.g. '6 8 11' for #5 #8 and #11 bars without the quotes) for imperial units, while use bar diameter (in mm) for SI units"
+            android:defaultValue="@string/barlist_SI"/>
+
+    <EditTextPreference
+            android:key="@string/CLEAR_SPACING"
+            android:title="Min clear spacing"
+            android:dialogMessage="Minimum clear spacing of bars in inches or millimeters"
+            android:inputType="numberDecimal"
+            android:defaultValue="25"/>
+
+    <EditTextPreference
+            android:key="@string/COVER"
+            android:title="Min cover to tie bar"
+            android:dialogMessage="Minimum cover to tie bar in inches or millimeters"
+            android:inputType="numberDecimal"
+            android:defaultValue="40"/>
+
+    <EditTextPreference
+            android:key="@string/FC"
+            android:title="Concrete strength"
+            android:dialogMessage="Concrete cylinder strength in MPa/ksi"
+            android:inputType="numberDecimal"
+            android:defaultValue="32"/>
+
+    <EditTextPreference
+            android:key="@string/FYMAIN"
+            android:title="@string/fymain_str"
+            android:dialogMessage="Main tension bar yield stress in MPa/ksi"
+            android:inputType="numberDecimal"
+            android:defaultValue="500"/>
+
+    <EditTextPreference
+        android:key="@string/PHI_C"
+        android:title="@string/phi_c_str"
+        android:inputType="numberDecimal"
+        android:defaultValue="0.6"/>
+    <EditTextPreference
+        android:key="@string/PHI_S"
+        android:title="@string/PHI_S_str"
+        android:inputType="numberDecimal"
+        android:defaultValue="0.9"/>
+
+</PreferenceScreen>

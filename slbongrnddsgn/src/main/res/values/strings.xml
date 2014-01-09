@@ -17,7 +17,7 @@
     <string name="Pu_str">Ultimate load</string>
     <string name="radius_str">Equivalent radius of loaded area</string>
     <string name="load_cond_str">Loading condition</string>
-    <string name="wheel_spacing_str">Load spacing (for wheel loads)</string>
+    <string name="wheel_spacing_str">Load spacing (for dual point loads)</string>
     <string name="preferences_title_str">Settings</string>
     <string name="DB_str">Bar diameter</string>
     <string name="DB_spacing_str">Bar spacing</string>
@@ -45,6 +45,12 @@
         name="units_array_entries">
         <item>@string/SI</item>
         <item>@string/Imperial</item>
+    </array>
+
+
+    <array name="reo_loc_entries">
+        <item>Top only</item>
+        <item>Top and bottom</item>
     </array>
 
 </resources>

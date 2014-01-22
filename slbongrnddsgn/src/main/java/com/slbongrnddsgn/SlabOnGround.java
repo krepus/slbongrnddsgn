@@ -102,7 +102,7 @@ public class SlabOnGround {
         0 - nominal temp bars only
         1 - top and bottom
          */
-        phiMn_sagging = fphiMn(mFck, mFyk, mBarDia, mHf, mScc, mcover);
+        phiMn_sagging = fphiMp(mFck, mFyk, mBarDia, mHf, mScc, mcover);
 
         //flag abort design if slab is over reinforced at the bottom
         boolean overreinforced = 0.d > phiMn_sagging.v();

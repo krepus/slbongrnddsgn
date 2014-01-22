@@ -193,6 +193,7 @@
                     android:id="@+id/DB_spinner"
                     android:layout_column="1" />
             </TableRow>
+
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -216,6 +217,23 @@
                     android:ems="150"
                     android:id="@+id/DB_spacing_in"
                     android:singleLine="true" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical">
+
+                <TextView
+                    android:paddingRight="@dimen/rpad"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="design results here"
+                    android:id="@+id/report"
+                    android:singleLine="true" />
+
             </TableRow>
 
         </TableLayout>

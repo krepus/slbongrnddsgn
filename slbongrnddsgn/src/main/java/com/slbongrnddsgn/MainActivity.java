@@ -6,6 +6,11 @@ import android.view.Menu;
 
 public class MainActivity extends Activity {
 
+    //design input variables
+    MyDouble mhf, mKs, mPu, ma, mx, mDB, mScc;
+    int mReoLoc;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +25,9 @@ public class MainActivity extends Activity {
         return true;
         //temp
     }
-    
+
+    private void GetInput() {
+
+    }
+
 }

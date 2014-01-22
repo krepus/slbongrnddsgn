@@ -129,7 +129,7 @@ public class SlabOnGround {
      * @return moment capacity per unit length or -1.0 for design error
      */
 
-    private MyDouble fphiMn(
+    private MyDouble fphiMp(
             MyDouble fc,
             MyDouble fy,
             MyDouble db,
@@ -203,5 +203,72 @@ public class SlabOnGround {
 
     }
 
+    MyDouble getPhiPn_Interior_dual(MyDouble Mn,
+                                    MyDouble Mp,
+                                    MyDouble Lr,
+                                    MyDouble a,
+                                    MyDouble x) {
+
+        double P00 = (2.d * PI + 1.8d * x.v() / Lr.v()) * (Mn.v() + Mp.v());
+        double P02 = (Mn.v() + Mp.v()) * (4.d * PI / (1.d - a.v() / (3.d * Lr.v())) + 1.8d * x.v()
+                / (Lr.v() - a.v() / 2.d));
+
+        double[] vx = {0.d, 0.2d};
+        double[] vy = {P00, P02};
+
+        if (a.v() / Lr.v() > 0.2d) {
+            return new MyDouble(P02, N);
+        } else {
+            return new MyDouble(Linterp(vx, vy, a.v() / Lr.v()), N);
+
+        }
+
+    }
+
+
+    MyDouble getPhiPn_edge_single(MyDouble Mn,
+                                  MyDouble Mp,
+                                  MyDouble Lr,
+                                  MyDouble a,
+                                  MyDouble x) {
+
+        double P00 = (Mn.v() + Mp.v()) * PI / 2.d + 2.d * Mn.v();
+        double P02 = ((Mn.v() + Mp.v()) * PI + 4.d * Mn.v()) / (1.d + 2.d * a.v() / (3.d * Lr.v()));
+
+        double[] vx = {0.d, 0.2d};
+        double[] vy = {P00, P02};
+
+        if (a.v() / Lr.v() > 0.2d) {
+            return new MyDouble(P02, N);
+        } else {
+            return new MyDouble(Linterp(vx, vy, a.v() / Lr.v()), N);
+
+        }
+
+    }
+
+
+    MyDouble getPhiPn_edge_dual(MyDouble Lr,
+                                MyDouble a,
+                                MyDouble x) {
+
+        double dMn = (mFctk_flex.v() - 1.5d) / mGammaC * pow(mHf.v(), 2.d) / 6.d;
+        MyDouble phiMn = new MyDouble(dMn, N);
+
+        MyDouble phiMp = fphiMp(mFck, mFyk, mBarDia, mHf, mScc, mcover);
+
+
+        MyDouble phiPn_wheel = getPhiPn_Interior_single(phiMn, phiMp, Lr, a);
+        MyDouble phiPn_axle = getPhiPn_Interior_dual(phiMn, phiMp, Lr, a, x);
+
+        double f_dual = phiPn_axle.v() / phiPn_wheel.v();
+
+        MyDouble phiPn_edge_single = getPhiPn_edge_single(phiMn, phiMp, Lr, a, x);
+
+        return new MyDouble(f_dual * phiPn_edge_single.v(), N);
+        //dfsldnf
+
+
+    }
 
 }

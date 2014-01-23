@@ -68,9 +68,6 @@ public class SettingsActivity extends PreferenceActivity
         Preference preference = findPreference(getString(R.string.BARLIST));
         preference.setSummary(sp.getString(getString(R.string.BARLIST), ""));
 
-        preference = findPreference(getString(R.string.CLEAR_SPACING));
-        preference.setSummary(sp.getString(getString(R.string.CLEAR_SPACING), ""));
-
         preference = findPreference(getString(R.string.COVER));
         preference.setSummary(sp.getString(getString(R.string.COVER), ""));
 

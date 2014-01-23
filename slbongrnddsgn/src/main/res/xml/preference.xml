@@ -19,12 +19,6 @@
             android:dialogMessage="Use bar no. (e.g. '6 8 11' for #5 #8 and #11 bars without the quotes) for imperial units, while use bar diameter (in mm) for SI units"
             android:defaultValue="@string/barlist_SI"/>
 
-    <EditTextPreference
-            android:key="@string/CLEAR_SPACING"
-            android:title="Min clear spacing"
-            android:dialogMessage="Minimum clear spacing of bars in inches or millimeters"
-            android:inputType="numberDecimal"
-            android:defaultValue="25"/>
 
     <EditTextPreference
             android:key="@string/COVER"

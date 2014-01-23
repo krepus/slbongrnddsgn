@@ -22,14 +22,17 @@
     <string name="DB_str">Bar diameter</string>
     <string name="DB_spacing_str">Bar spacing</string>
 
+    <string name="topbarstr1">Top (Temperature bars only)</string>
+    <string name="topbarstr2">Top adn bottom</string>
+
+
     <!-- PREF strings -->
-    <string name="UNIT">Slab thickness</string>
+    <string name="UNIT">UNIT</string>
     <string name="SI">SI</string>
     <string name="Imperial">Imperial</string>
     <string name="BARLIST">BARLIST</string>
     <string name="barlist_SI">10 12 16 20 25 28 30 32 36</string>
     <string name="barlist_Imperial">4 5 6 7 8 9 10 11 14</string>
-    <string name="CLEAR_SPACING">CLEAR_SPACING</string>
     <string name="COVER">COVER</string>
     <string name="FC">FC</string>
     <string name="FYMAIN">FYMAIN</string>
@@ -39,6 +42,17 @@
     <string name="PHI_S">PHI_S</string>
     <string name="PHI_S_str">Reinforcement resistance factor</string>
     <string name="BARLIST_RESET">BARLIST_RESET</string>
+    <string name="UNIT_CHANGED">false</string>
+
+    <!-- PREF STRINGS FROM UI INPUT -->
+    <string name="MIN_TENSION_BAR_DIA_ITEM_SELECTION">MIN_TENSION_BAR_DIA_ITEM_SELECTION</string>
+    <string name="REOLOC_ITEM_SELECTION">REOLOC_ITEM_SELECTION</string>
+    <string name="SLAB_THICKNESS">SLAB_THICKNESS</string>
+    <string name="SUBGRADE">SUBGRADE</string>
+    <string name="POINT_LOAD">POINT_LOAD</string>
+    <string name="EQUIV_RADIUS">EQUIV_RADIUS</string>
+    <string name="WHEEL_SPACING">WHEEL_SPACING</string>
+    <string name="BAR_SPACING">BAR_SPACING</string>
 
 
     <array
@@ -49,8 +63,8 @@
 
 
     <array name="reo_loc_entries">
-        <item>Top only</item>
-        <item>Top and bottom</item>
+        <item>@string/topbarstr1</item>
+        <item>@string/topbarstr2</item>
     </array>
 
 </resources>

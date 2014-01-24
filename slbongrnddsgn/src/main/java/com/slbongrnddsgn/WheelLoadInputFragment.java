@@ -8,10 +8,10 @@ package com.slbongrnddsgn;
  * To change this template use File | Settings | File Templates.
  */
 
+import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,32 +24,20 @@ import static com.slbongrnddsgn.MyDouble.Unit;
 
 public class WheelLoadInputFragment extends Fragment {
 
-    private View view;
+    public View view;
     private String[] strarrBarlist;
     Bundle mSavedInstanceState = null;
 
 
-/*
-    @Override
-    public void onAttach(Activity a) {
-        super.onAttach(a);
-        try {
-            saveDesigInputData = (SaveDesigInputData) a;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(a.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
-*/
 
-    /**
-     * @param inflater
-     * @param container          is the root view, UNO
-     * @param savedInstanceState
-     * @return
-     */
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
-    @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -77,6 +65,7 @@ public class WheelLoadInputFragment extends Fragment {
 
         updateInputUI();
 
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Boolean barlistchanged = Boolean.parseBoolean(sharedPref.getString(
                 getString(R.string.BARLIST_RESET), "false"));
@@ -94,7 +83,9 @@ public class WheelLoadInputFragment extends Fragment {
             relocspinner.setSelection(
                     Integer.parseInt(sharedPref.getString(getString(R.string.REOLOC_ITEM_SELECTION), "0")));
 
+
         }
+
 
     }
 
@@ -240,7 +231,7 @@ public class WheelLoadInputFragment extends Fragment {
         v = (EditText) view.findViewById(R.id.wheel_spacing_in);
         v.setText(sharedPref.getString(getString(R.string.WHEEL_SPACING), "2500"));
 
-        v = (EditText) view.findViewById(R.id.DB_spacing_textview_ID);
+        v = (EditText) view.findViewById(R.id.DB_spacing_in);
         v.setText(sharedPref.getString(getString(R.string.DB_spacing_str), "200"));
 
         SharedPreferences.Editor ed = sharedPref.edit();
@@ -269,10 +260,11 @@ public class WheelLoadInputFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, strarrBarlist);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         DBspinner.setAdapter(arrayAdapter);
+/**
         Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
         ArrayAdapter<String> reolocarrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, R.array.reo_loc_entries);
         reolocspinner.setAdapter(reolocarrayAdapter);
-
+*/
         //
         SharedPreferences.Editor ed = sharedPref.edit();
         ed.putString(getString(R.string.BARLIST_RESET), "false");

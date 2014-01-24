@@ -23,7 +23,9 @@
     <string name="DB_spacing_str">Bar spacing</string>
 
     <string name="topbarstr1">Top (Temperature bars only)</string>
-    <string name="topbarstr2">Top adn bottom</string>
+    <string name="topbarstr2">Top and bottom</string>
+
+    <string name="About_str">About</string>
 
 
     <!-- PREF strings -->

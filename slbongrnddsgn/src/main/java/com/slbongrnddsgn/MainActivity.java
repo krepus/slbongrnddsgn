@@ -1,12 +1,17 @@
 package com.slbongrnddsgn;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -20,10 +25,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         //set defaults
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preference, false);
+
+        setContentView(R.layout.activity_main);
 
 
         /**
@@ -59,9 +65,42 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
         //temp
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.preferences_id:
+                // Display the fragment as the menu_main content.
+
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(intent, 0);
+                return true;
+
+
+
+            case R.id.About:
+
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.about_dialog);
+                dialog.setTitle("About the app");
+                TextView text = (TextView) dialog.findViewById(R.id.about_text);
+                text.setText("This app will check the design thickness of a slab with specified design parameters");
+
+                // ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                // image.setImageResource(R.drawable.icon);
+                dialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
 }

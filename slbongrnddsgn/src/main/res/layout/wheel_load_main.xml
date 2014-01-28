@@ -38,7 +38,8 @@
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/hf_in"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_column="2" />
             </TableRow>
 
             <TableRow
@@ -63,7 +64,8 @@
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/ks_in"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_column="2" />
             </TableRow>
 
             <TableRow
@@ -88,7 +90,8 @@
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/Pu_in"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_column="2" />
             </TableRow>
 
             <TableRow
@@ -113,7 +116,8 @@
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/radius_in"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_column="2" />
             </TableRow>
 
 
@@ -139,7 +143,8 @@
                     android:inputType="numberDecimal"
                     android:ems="0"
                     android:id="@+id/wheel_spacing_in"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_column="2" />
             </TableRow>
 
 
@@ -165,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/reo_loc_spinner"
                     android:entries="@array/reo_loc_entries"
-                    android:layout_column="1" />
+                    android:layout_column="2" />
 
 
             </TableRow>
@@ -191,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/DB_spinner"
-                    android:layout_column="1" />
+                    android:layout_column="2" />
 
             </TableRow>
 
@@ -217,13 +222,33 @@
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/DB_spacing_in"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_column="2" />
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical">
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Design"
+                    android:id="@+id/button_des"
+                    android:layout_column="0"
+                    android:layout_marginTop="20dip" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
                 <TextView
                     android:paddingRight="@dimen/rpad"
@@ -233,8 +258,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="design results here"
                     android:id="@+id/report"
-                    android:singleLine="true" />
-
+                    android:singleLine="false"
+                    android:layout_column="0" />
             </TableRow>
 
         </TableLayout>

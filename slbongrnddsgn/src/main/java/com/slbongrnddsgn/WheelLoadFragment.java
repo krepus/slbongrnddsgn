@@ -16,18 +16,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import static com.slbongrnddsgn.MyDouble.Unit;
+import java.util.StringTokenizer;
 
-public class WheelLoadInputFragment extends Fragment {
+import static com.slbongrnddsgn.MyDouble.Unit.*;
+
+public class WheelLoadFragment extends Fragment implements View.OnClickListener {
 
     public View view;
     private String[] strarrBarlist;
     Bundle mSavedInstanceState = null;
 
+    //global input var
+    MyDouble[] mBarlist;
+    MyDouble mHf, mKs, mPu, ma, mX, mScc, mDB;
+    int mReoLoc;
+    String mUnit;
+
+    //global var for pref variables
+    MyDouble mcover;
+    MyDouble mFc;
+    MyDouble mFy;
+    double mgamma_c; //partial safety factor, conc
+    double mgamma_s;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +59,10 @@ public class WheelLoadInputFragment extends Fragment {
         // Inflate the layout for this fragment
         mSavedInstanceState = savedInstanceState;
         view = inflater.inflate(R.layout.wheel_load_main, container, false);
+
+        Button b = (Button) view.findViewById(R.id.button_des);
+        b.setOnClickListener(this);
+        //return v;
         return view;
     }
 
@@ -96,17 +116,18 @@ public class WheelLoadInputFragment extends Fragment {
 
     }
 
-    /*
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_des:
 
-    // Container Activity must implement this interface to pass data
-    public interface SaveDesigInputData {
-        public void SaveDesigInput(Bundle bundle);
 
-        //data is actually saved in this fragments onPause method
+                TextView reportstr = (TextView) view.findViewById(R.id.report);
+                reportstr.setText(getDesignReport());
+
+                break;
+        }
     }
-
-
-    */
 
     private void saveDesignInput() {
 
@@ -168,49 +189,49 @@ public class WheelLoadInputFragment extends Fragment {
 
         if (unit.equals(SIUnit)) {
             TextView v = (TextView) view.findViewById(R.id.hf_textview_ID);
-            v.setText(getString(R.string.hf_str) + ", " + Unit.mm.toString());
+            v.setText(getString(R.string.hf_str) + ", " + mm.toString());
 
             v = (TextView) view.findViewById(R.id.ks_textview_ID);
-            v.setText(getString(R.string.ks_str) + ", " + Unit.MPa_per_mm);
+            v.setText(getString(R.string.ks_str) + ", " + MPa_per_mm);
 
             v = (TextView) view.findViewById(R.id.Pu_textview_ID);
-            v.setText(getString(R.string.Pu_str) + ", " + Unit.kN.toString());
+            v.setText(getString(R.string.Pu_str) + ", " + kN.toString());
 
 
             v = (TextView) view.findViewById(R.id.radius_textview_ID);
-            v.setText(getString(R.string.radius_str) + ", " + Unit.mm.toString());
+            v.setText(getString(R.string.radius_str) + ", " + mm.toString());
 
             v = (TextView) view.findViewById(R.id.wheel_spacing_textview_ID);
-            v.setText(getString(R.string.wheel_spacing_str) + ", " + Unit.mm.toString());
+            v.setText(getString(R.string.wheel_spacing_str) + ", " + mm.toString());
 
             v = (TextView) view.findViewById(R.id.DB_textview_ID);
-            v.setText(getString(R.string.DB_str) + ", " + DIA + "(" + Unit.mm.toString() + ")");
+            v.setText(getString(R.string.DB_str) + ", " + DIA + "(" + mm.toString() + ")");
 
             v = (TextView) view.findViewById(R.id.DB_spacing_textview_ID);
-            v.setText(getString(R.string.DB_spacing_str) + ", " + Unit.mm.toString());
+            v.setText(getString(R.string.DB_spacing_str) + ", " + mm.toString());
 
         } else {
             TextView v = (TextView) view.findViewById(R.id.hf_textview_ID);
-            v.setText(getString(R.string.hf_str) + ", " + Unit.in.toString());
+            v.setText(getString(R.string.hf_str) + ", " + in.toString());
 
             v = (TextView) view.findViewById(R.id.ks_textview_ID);
-            v.setText(getString(R.string.ks_str) + ", " + Unit.psi_per_in);
+            v.setText(getString(R.string.ks_str) + ", " + psi_per_in);
 
             v = (TextView) view.findViewById(R.id.Pu_textview_ID);
-            v.setText(getString(R.string.Pu_str) + ", " + Unit.kip.toString());
+            v.setText(getString(R.string.Pu_str) + ", " + kip.toString());
 
 
             v = (TextView) view.findViewById(R.id.radius_textview_ID);
-            v.setText(getString(R.string.radius_str) + ", " + Unit.in.toString());
+            v.setText(getString(R.string.radius_str) + ", " + in.toString());
 
             v = (TextView) view.findViewById(R.id.wheel_spacing_textview_ID);
-            v.setText(getString(R.string.wheel_spacing_str) + ", " + Unit.ft.toString());
+            v.setText(getString(R.string.wheel_spacing_str) + ", " + ft.toString());
 
             v = (TextView) view.findViewById(R.id.DB_textview_ID);
             v.setText(getString(R.string.DB_str) + ", #");
 
             v = (TextView) view.findViewById(R.id.DB_spacing_textview_ID);
-            v.setText(getString(R.string.DB_spacing_str) + ", " + Unit.in.toString());
+            v.setText(getString(R.string.DB_spacing_str) + ", " + in.toString());
         }
 
 
@@ -261,14 +282,128 @@ public class WheelLoadInputFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         DBspinner.setAdapter(arrayAdapter);
 /**
-        Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
-        ArrayAdapter<String> reolocarrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, R.array.reo_loc_entries);
-        reolocspinner.setAdapter(reolocarrayAdapter);
-*/
+ Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
+ ArrayAdapter<String> reolocarrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, R.array.reo_loc_entries);
+ reolocspinner.setAdapter(reolocarrayAdapter);
+ */
         //
         SharedPreferences.Editor ed = sharedPref.edit();
         ed.putString(getString(R.string.BARLIST_RESET), "false");
         ed.commit();
+    }
+
+
+    /**
+     * @return true if all input is a number, otherwise
+     * @throws NumberFormatException and return false
+     */
+    private Boolean getDesignInput() throws NumberFormatException {
+
+        //save design input first
+        saveDesignInput();
+
+        //then retrieve input
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+
+        mgamma_c = 1.d / Double.parseDouble(sp.getString(getString(R.string.PHI_C), "0.6f"));
+        mgamma_s = 1.d /Double.parseDouble(sp.getString(getString(R.string.PHI_S), "0.9f"));
+
+
+        //get reo location
+        Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
+        mReoLoc = reolocspinner.getSelectedItemPosition();
+
+
+        //get bar diameter
+        Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
+
+
+        //throw numberformatexception if entry is not a number
+        try {
+
+            //get unit
+            mUnit = sp.getString(getString(R.string.UNIT), getString(R.string.SI));
+
+
+            //for SI unit
+            if (mUnit.equals(getString(R.string.SI))) {
+                mHf = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SLAB_THICKNESS), "")), mm);
+                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), MPa_per_mm);
+                mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kN);
+                ma = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.EQUIV_RADIUS), "")), mm);
+                mX = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.WHEEL_SPACING), "")), mm);
+                //reoloc
+                double dDB = Double.parseDouble(DBspinner.getSelectedItem().toString());
+                mDB = new MyDouble(dDB, mm);
+                mScc = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.BAR_SPACING), "")), mm);
+
+                //pref vars
+                mcover = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.COVER), "75.d")), mm);
+                mFc = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.FC), "32.d")), MPa);
+                mFy = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.FYMAIN), "414.d")), MPa);
+
+
+            } else {
+                mHf = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SLAB_THICKNESS), "")), in);
+                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), psi_per_in);
+                mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kip);
+                ma = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.EQUIV_RADIUS), "")), in);
+                mX = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.WHEEL_SPACING), "")), in);
+                //get DB
+                double dDB = Double.parseDouble(DBspinner.getSelectedItem().toString()) / 8.d; //in inches
+                mDB = new MyDouble(dDB, in);
+                mScc = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.BAR_SPACING), "")), in);
+
+                //pref vars
+                mcover = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.COVER), "3.d")), in);
+                mFc = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.FC), "32.d")), ksi);
+                mFy = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.FYMAIN), "414.d")), ksi);
+
+            }
+
+            return true;
+
+        } catch (NumberFormatException e) {
+            Toast.makeText(getActivity(), "Check input for invalid entries..", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+
+        //pass the data to activity
+        //saveDesigInputData.SaveDesigInput(bundle);
+        //then return the bundled data
+        //return bundle;
+    }
+
+    public String getDesignReport() {
+
+        String report = "sample";
+
+        if (getDesignInput()) {
+
+            SlabOnGround currenSlab = new SlabOnGround(mcover,
+                    mHf,
+                    mKs,
+                    mPu,
+                    ma,
+                    mX,
+                    mReoLoc,
+                    mDB,
+                    mScc,
+                    mFc,
+                    mFy,
+                    mgamma_c,
+                    mgamma_s,
+                    mUnit);
+
+            return currenSlab.mReport;
+
+
+        } else {
+            report = "Check design input";
+        }
+        return report;
     }
 
 

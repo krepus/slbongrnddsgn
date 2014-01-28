@@ -2,12 +2,10 @@ package com.slbongrnddsgn;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +14,8 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     //design input variables
-    MyDouble mhf, mKs, mPu, ma, mx, mDB, mScc;
-    int mReoLoc;
 
-    private WheelLoadInputFragment mFragment;
-    private android.support.v4.app.FragmentTabHost mTabHost;
+    private WheelLoadFragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +36,7 @@ public class MainActivity extends Activity {
          // mTabHost.addTab(mTabHost.newTabSpec("design brief").setIndicator("design brief"),
          //         DesignBriefFragment.class, null);
          mTabHost.addTab(mTabHost.newTabSpec("design input").setIndicator("design input"),
-         WheelLoadInputFragment.class, null);
+         WheelLoadFragment.class, null);
          // mTabHost.addTab(mTabHost.newTabSpec("design out").setIndicator("design out"),
          //      DesignOutFragment.class, null);
 
@@ -55,7 +50,7 @@ public class MainActivity extends Activity {
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
 
-        mFragment = new WheelLoadInputFragment();
+        mFragment = new WheelLoadFragment();
         ft.add(R.id.fragmentContainer, mFragment);
         ft.commit();
 
@@ -82,8 +77,6 @@ public class MainActivity extends Activity {
                 startActivityForResult(intent, 0);
                 return true;
 
-
-
             case R.id.About:
 
                 Dialog dialog = new Dialog(this);
@@ -96,6 +89,7 @@ public class MainActivity extends Activity {
                 // image.setImageResource(R.drawable.icon);
                 dialog.show();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

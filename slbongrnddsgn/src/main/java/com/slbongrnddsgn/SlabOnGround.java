@@ -20,7 +20,7 @@ public class SlabOnGround {
     MyDouble mHf; //slab thickness
     MyDouble mKs; //subgrade modulus
     MyDouble mPu; //Ultimate load
-    MyDouble mR;  //equivalent radius
+    MyDouble mRadius;  //equivalent radius
     MyDouble mSload; //wheel load spacing
     Integer mReoLoc; //
     MyDouble mBarDia, mScc; //bar dia and spacing
@@ -38,7 +38,9 @@ public class SlabOnGround {
     Double mPhi, mPoisson;  //strenght factor
 
     //point load capacities
-    MyDouble phiPn_Interior_single, phiPn_Interior_dual, phiPn_edge_single, getPhiPn_edge_dual;
+    MyDouble phiPn_Interior_single, phiPn_Interior_dual, phiPn_edge_single, phiPn_edge_dual;
+    String mReport;
+    String mNotes = "";
 
 
     public SlabOnGround(
@@ -54,14 +56,15 @@ public class SlabOnGround {
             MyDouble tFc,
             MyDouble tFy,
             double tgamma_c, //partial safety factor, conc
-            double tgamma_s
+            double tgamma_s,
+            String tUnit
     ) {
 
-        mcover = new MyDouble(75.d, mm);
+        mcover = tcover;
         mHf = tHf;
         mKs = tKs;
         mPu = tPu;
-        mR = tR;
+        mRadius = tR;
         mSload = tSload;
         mReoLoc = tReoLoc;
         mBarDia = tBarDia;
@@ -107,13 +110,54 @@ public class SlabOnGround {
         //flag abort design if slab is over reinforced at the bottom
         boolean overreinforced = 0.d > phiMn_sagging.v();
 
-        if (tReoLoc > 0 || (!overreinforced)) { //top and bottom
+        if (tReoLoc > 0) { //top and bottom
             {
+                if (!overreinforced) {
+
+                    phiPn_Interior_single = getPhiPn_Interior_single(phiMn_sagging, phiMn_hogging, mLr, mRadius);
+                    phiPn_Interior_dual = getPhiPn_Interior_dual(phiMn_sagging, phiMn_hogging, mLr, mRadius, mSload);
+                    phiPn_edge_single = getPhiPn_edge_single(phiMn_sagging, phiMn_hogging, mLr, mRadius);
+                    phiPn_edge_dual = getPhiPn_edge_dual(mLr, mRadius, mSload);
+                } else {
+                    phiPn_Interior_single = getPhiPn_Interior_single(phiMn_sagging, phiMn_hogging, mLr, mRadius);
+                    phiPn_Interior_dual = getPhiPn_Interior_dual(phiMn_sagging, phiMn_hogging, mLr, mRadius, mSload);
+                    phiPn_edge_single = getPhiPn_edge_single(phiMn_sagging, phiMn_hogging, mLr, mRadius);
+                    phiPn_edge_dual = getPhiPn_edge_dual(mLr, mRadius, mSload);
+
+                    mNotes = "Bottom reinforcement exceeds maximum reinforcement. " +
+                            "Only maximum allowed used in calculating the hogging moment capacity, consider reducing";
+
+                }
 
             }
         } else { //top only
 
+            phiMn_sagging = new MyDouble(0.d, kN);
+            phiPn_Interior_single = getPhiPn_Interior_single(phiMn_sagging, phiMn_hogging, mLr, mRadius);
+            phiPn_Interior_dual = getPhiPn_Interior_dual(phiMn_sagging, phiMn_hogging, mLr, mRadius, mSload);
+            phiPn_edge_single = getPhiPn_edge_single(phiMn_sagging, phiMn_hogging, mLr, mRadius);
+            phiPn_edge_dual = getPhiPn_edge_dual(mLr, mRadius, mSload);
 
+            mNotes = "Provide nominal top reinforcement for temperature and shrinkage";
+        }
+
+        //print report
+        if (tUnit.equals("SI")) {
+            mReport = "Slab capacities: \r\n\r\n" +
+                    "Interior location, single point = " + phiPn_Interior_single.toUnit(kN).toString() + "\r\n" +
+                    "Interior location, dual point at " + mSload.toString() + " spacing = " + phiPn_Interior_dual.toUnit(kN).toString() + "\r\n" +
+                    "Edge location, single point = " + phiPn_edge_single.toUnit(kN).toString() + "\r\n" +
+                    "Edge location, dual point at " + mSload.toString() + " spacing = " + phiPn_edge_dual.toUnit(kN).toString() + "\r\n" +
+                    "\r\n" +
+                    "Notes: " + mNotes;
+        } else {
+            mReport = "Slab capacities: \r\n\r\n" +
+                    "Interior location, single point = " + phiPn_Interior_single.toUnit(kip).toString() + "\r\n" +
+                    "Interior location, dual point at " + mSload.toUnit(in).toString() + " spacing = " + phiPn_Interior_dual.toUnit(kip).toString() + "\r\n" +
+                    "Edge location, single point = " + phiPn_edge_single.toUnit(kip).toString() + "\r\n" +
+                    "Edge location, dual point at " + mSload.toUnit(in).toString() + " spacing = " + phiPn_edge_dual.toUnit(kip).toString() + "\r\n" +
+                    "\r\n" +
+                    "Notes: " + mNotes;
         }
 
 
@@ -229,8 +273,7 @@ public class SlabOnGround {
     MyDouble getPhiPn_edge_single(MyDouble Mn,
                                   MyDouble Mp,
                                   MyDouble Lr,
-                                  MyDouble a,
-                                  MyDouble x) {
+                                  MyDouble a) {
 
         double P00 = (Mn.v() + Mp.v()) * PI / 2.d + 2.d * Mn.v();
         double P02 = ((Mn.v() + Mp.v()) * PI + 4.d * Mn.v()) / (1.d + 2.d * a.v() / (3.d * Lr.v()));
@@ -263,7 +306,7 @@ public class SlabOnGround {
 
         double f_dual = phiPn_axle.v() / phiPn_wheel.v();
 
-        MyDouble phiPn_edge_single = getPhiPn_edge_single(phiMn, phiMp, Lr, a, x);
+        MyDouble phiPn_edge_single = getPhiPn_edge_single(phiMn, phiMp, Lr, a);
 
         return new MyDouble(f_dual * phiPn_edge_single.v(), N);
         //dfsldnf

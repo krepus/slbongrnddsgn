@@ -7,6 +7,10 @@
 
     <!-- dim -->
     <dimen name="rpad">10dip</dimen>
+    <dimen name="width_textview">150dip</dimen>
+    <dimen name="width_edittext">90dip</dimen>
+    <dimen name="width_screen">400dip</dimen>
+
 
 
 

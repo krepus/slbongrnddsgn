@@ -8,6 +8,7 @@ package com.slbongrnddsgn;
  * To change this template use File | Settings | File Templates.
  */
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,8 +23,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.StringTokenizer;
-
 import static com.slbongrnddsgn.MyDouble.Unit.*;
 
 public class WheelLoadFragment extends Fragment implements View.OnClickListener {
@@ -36,7 +35,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
     MyDouble[] mBarlist;
     MyDouble mHf, mKs, mPu, ma, mX, mScc, mDB;
     int mReoLoc;
-    String mUnit;
+    String mUnit, mReport;
 
     //global var for pref variables
     MyDouble mcover;
@@ -45,12 +44,29 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
     double mgamma_c; //partial safety factor, conc
     double mgamma_s;
 
+    SlabOnGround sog;
+    // get a label for our log entries
+    private final String TAG = this.getClass().getSimpleName();
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Log.i(TAG, "onAttach");
+    }
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (null != savedInstanceState) {
+            // Restore state here
+        }
+        // Log.i(TAG, "onCreate");
+
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // Log.i(TAG, "onActivityCreated");
     }
 
 
@@ -63,13 +79,16 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
         Button b = (Button) view.findViewById(R.id.button_des);
         b.setOnClickListener(this);
         //return v;
+        // Log.i(TAG, "onCreateView");
         return view;
     }
+
 
     @Override
     public void onPause() {
         super.onPause();
         saveDesignInput();
+        //Log.i(TAG, "onPause");
     }
 
 
@@ -77,6 +96,12 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
     public void onDestroyView() {
         super.onDestroyView();
         //mTabHost = null;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Log.i(TAG, "onStop");
     }
 
     @Override
@@ -105,6 +130,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
 
 
         }
+        // Log.i(TAG, "onResume");
 
 
     }
@@ -112,7 +138,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onStart() {
         super.onStart();
-
+        //Log.i(TAG, "onStart");
 
     }
 
@@ -151,8 +177,8 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
         v = (TextView) view.findViewById(R.id.ks_in);
         ed.putString(getString(R.string.SUBGRADE), v.getText().toString());
 
-        v = (TextView) view.findViewById(R.id.Pu_in);
-        ed.putString(getString(R.string.POINT_LOAD), v.getText().toString());
+       /* v = (TextView) view.findViewById(R.id.Pu_in);
+        ed.putString(getString(R.string.POINT_LOAD), v.getText().toString());*/
 
 
         v = (TextView) view.findViewById(R.id.radius_in);
@@ -192,11 +218,11 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
             v.setText(getString(R.string.hf_str) + ", " + mm.toString());
 
             v = (TextView) view.findViewById(R.id.ks_textview_ID);
-            v.setText(getString(R.string.ks_str) + ", " + MPa_per_mm);
+            v.setText(getString(R.string.ks_str) + ", " + kPa_per_mm);
 
-            v = (TextView) view.findViewById(R.id.Pu_textview_ID);
+            /*v = (TextView) view.findViewById(R.id.Pu_textview_ID);
             v.setText(getString(R.string.Pu_str) + ", " + kN.toString());
-
+*/
 
             v = (TextView) view.findViewById(R.id.radius_textview_ID);
             v.setText(getString(R.string.radius_str) + ", " + mm.toString());
@@ -215,10 +241,10 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
             v.setText(getString(R.string.hf_str) + ", " + in.toString());
 
             v = (TextView) view.findViewById(R.id.ks_textview_ID);
-            v.setText(getString(R.string.ks_str) + ", " + psi_per_in);
+            v.setText(getString(R.string.ks_str) + ", " + psf_per_in);
 
-            v = (TextView) view.findViewById(R.id.Pu_textview_ID);
-            v.setText(getString(R.string.Pu_str) + ", " + kip.toString());
+            /*v = (TextView) view.findViewById(R.id.Pu_textview_ID);
+            v.setText(getString(R.string.Pu_str) + ", " + kip.toString());*/
 
 
             v = (TextView) view.findViewById(R.id.radius_textview_ID);
@@ -241,10 +267,10 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
 
 
         v = (EditText) view.findViewById(R.id.ks_in);
-        v.setText(sharedPref.getString(getString(R.string.SUBGRADE), "0.025"));
+        v.setText(sharedPref.getString(getString(R.string.SUBGRADE), "25"));
 
-        v = (EditText) view.findViewById(R.id.Pu_in);
-        v.setText(sharedPref.getString(getString(R.string.POINT_LOAD), "300"));
+       /* v = (EditText) view.findViewById(R.id.Pu_in);
+        v.setText(sharedPref.getString(getString(R.string.POINT_LOAD), "300"));*/
 
         v = (EditText) view.findViewById(R.id.radius_in);
         v.setText(sharedPref.getString(getString(R.string.EQUIV_RADIUS), "300"));
@@ -306,8 +332,8 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 
-        mgamma_c = 1.d / Double.parseDouble(sp.getString(getString(R.string.PHI_C), "0.6f"));
-        mgamma_s = 1.d /Double.parseDouble(sp.getString(getString(R.string.PHI_S), "0.9f"));
+        mgamma_c = 1.d / Double.parseDouble(sp.getString(getString(R.string.PHI_C), "0.6d"));
+        mgamma_s = 1.d / Double.parseDouble(sp.getString(getString(R.string.PHI_S), "0.9d"));
 
 
         //get reo location
@@ -329,8 +355,8 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
             //for SI unit
             if (mUnit.equals(getString(R.string.SI))) {
                 mHf = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SLAB_THICKNESS), "")), mm);
-                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), MPa_per_mm);
-                mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kN);
+                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), kPa_per_mm);/*
+                mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kN);*/
                 ma = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.EQUIV_RADIUS), "")), mm);
                 mX = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.WHEEL_SPACING), "")), mm);
                 //reoloc
@@ -346,8 +372,8 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
 
             } else {
                 mHf = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SLAB_THICKNESS), "")), in);
-                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), psi_per_in);
-                mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kip);
+                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), psf_per_in);/*
+                mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kip);*/
                 ma = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.EQUIV_RADIUS), "")), in);
                 mX = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.WHEEL_SPACING), "")), in);
                 //get DB
@@ -382,10 +408,10 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
 
         if (getDesignInput()) {
 
-            SlabOnGround currenSlab = new SlabOnGround(mcover,
+            sog = new SlabOnGround(mcover,
                     mHf,
-                    mKs,
-                    mPu,
+                    mKs,/*
+                    mPu,*/
                     ma,
                     mX,
                     mReoLoc,
@@ -397,7 +423,59 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
                     mgamma_s,
                     mUnit);
 
-            return currenSlab.mReport;
+
+            //input part of the report
+            String inputrep;
+            String[] reolocstr = new String[2];
+            reolocstr[0] = getString(R.string.topbarstr1);
+            reolocstr[1] = getString(R.string.topbarstr2);
+
+
+            //print report
+
+            if (mUnit.equals("SI")) {
+
+                inputrep = "Design Input\r\n" +
+                        "Slab thickness = " + mHf.toString() + "\r\n" +
+                        "Subgrade reaction = " + mKs.toString() + "\r\n" +
+                        "Radius of relative stiffness = " + sog.mLr.toString() + "\r\n" +
+                        "Equivalent radius of loaded area = " + ma.toString() + "\r\n" +
+                        "Load spacing for dual point loads = " + mX.toString() + "\r\n" +
+                        "Reinforcement location = " + reolocstr[mReoLoc] + "\r\n" +
+                        "Bar diameter = " + mDB.toString() + "\r\n" +
+                        "Bar spacing = " + mScc.toString() + "\r\n";
+
+                mReport = "Slab capacities (see notes below): \r\n\r\n" +
+                        "Interior location, single point = " + sog.phiPn_Interior_single.toUnit(kN).toString() + "\r\n" +
+                        "Interior location, dual point at " + sog.mSload.toString() + " spacing = " + sog.phiPn_Interior_dual.toUnit(kN).toString() + "\r\n" +
+                        "Edge location, single point = " + sog.phiPn_edge_single.toUnit(kN).toString() + "\r\n" +
+                        "Edge location, dual point at " + sog.mSload.toString() + " spacing = " + sog.phiPn_edge_dual.toUnit(kN).toString() + "\r\n" +
+                        "\r\n";
+
+            } else {
+                //get bar diameter
+                Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
+
+                inputrep = "Design Input\r\n" +
+                        "Slab thickness = " + mHf.toUnit(in).toString() + "\r\n" +
+                        "Subgrade reaction = " + mKs.toUnit(psf_per_in).toString() + "\r\n" +
+                        "Radius of relative stiffness = " + sog.mLr.toUnit(in).toString() + "\r\n" +
+                        "Equivalent radius of loaded area = " + ma.toUnit(in).toString() + "\r\n" +
+                        "Load spacing for dual point loads = " + mX.toUnit(in).toString() + "\r\n" +
+                        "Reinforcement location = " + reolocstr[mReoLoc] + "\r\n" +
+                        "Bar number = " + DBspinner.getSelectedItem().toString() + "\r\n" +
+                        "Bar spacing = " + mScc.toUnit(in).toString() + "\r\n";
+                mReport = "Slab capacities: \r\n\r\n" +
+                        "Interior location, single point = " + sog.phiPn_Interior_single.toUnit(kip).toString() + "\r\n" +
+                        "Interior location, dual point at " + sog.mSload.toUnit(in).toString() + " spacing = " + sog.phiPn_Interior_dual.toUnit(kip).toString() + "\r\n" +
+                        "Edge location, single point = " + sog.phiPn_edge_single.toUnit(kip).toString() + "\r\n" +
+                        "Edge location, dual point at " + sog.mSload.toUnit(in).toString() + " spacing = " + sog.phiPn_edge_dual.toUnit(kip).toString() + "\r\n" +
+                        "\r\n";
+            }
+
+
+            return mReport + inputrep + sog.mNotes;
+            //return "test only";
 
 
         } else {

@@ -5,252 +5,183 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="left|center_vertical">
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
 
                 <TextView
+
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/hf_str"
-                    android:id="@+id/hf_textview_ID"
-                    android:singleLine="true" />
-
+                    android:id="@+id/hf_textview_ID" />
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/hf_textview_ID"
+                    android:layout_width="@dimen/width_edittext"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/hf_in"
-                    android:singleLine="true"
-                    android:layout_column="2" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
-
-                <TextView
-                    android:paddingRight="@dimen/rpad"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/ks_str"
-                    android:id="@+id/ks_textview_ID"
                     android:singleLine="true" />
 
 
+                <TextView
+                    android:layout_below="@id/hf_in"
+                    android:paddingRight="@dimen/rpad"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="@dimen/width_textview"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/ks_str"
+                    android:id="@+id/ks_textview_ID"  />
+
+
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/ks_textview_ID"
+                    android:layout_below="@id/hf_in"
+                    android:layout_width="@dimen/width_edittext"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/ks_in"
-                    android:singleLine="true"
-                    android:layout_column="2" />
-            </TableRow>
+                    android:singleLine="true"  />
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
-
-                <TextView
+                <!--<TextView
+                    android:layout_below="@id/ks_in"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/Pu_str"
-                    android:id="@+id/Pu_textview_ID"
-                    android:singleLine="true" />
+                    android:id="@+id/Pu_textview_ID" />
 
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/Pu_textview_ID"
+                    android:layout_below="@id/ks_in"
+                    android:layout_width="@dimen/width_edittext"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/Pu_in"
-                    android:singleLine="true"
-                    android:layout_column="2" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
+                    android:singleLine="true" />-->
 
                 <TextView
+                    android:layout_below="@id/ks_in"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/radius_str"
-                    android:id="@+id/radius_textview_ID"
-                    android:singleLine="true" />
+                    android:id="@+id/radius_textview_ID" />
 
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/radius_textview_ID"
+                    android:layout_below="@id/ks_in"
+                    android:layout_width="@dimen/width_edittext"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/radius_in"
-                    android:singleLine="true"
-                    android:layout_column="2" />
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
+                    android:singleLine="true" />
 
                 <TextView
+                    android:layout_below="@id/radius_in"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/wheel_spacing_str"
-                    android:id="@+id/wheel_spacing_textview_ID"
-                    android:singleLine="true" />
+                    android:id="@+id/wheel_spacing_textview_ID" />
 
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/wheel_spacing_textview_ID"
+                    android:layout_below="@id/radius_in"
+                    android:layout_width="@dimen/width_edittext"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="0"
                     android:id="@+id/wheel_spacing_in"
-                    android:singleLine="true"
-                    android:layout_column="2" />
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
-
+                    android:singleLine="true" />
                 <TextView
+                    android:layout_below="@id/wheel_spacing_in"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/reo_loc_str"
-                    android:id="@+id/reo_loc_textview_ID"
-                    android:singleLine="true" />
+                    android:id="@+id/reo_loc_textview_ID" />
 
                 <Spinner
+                    android:layout_toRightOf="@id/reo_loc_textview_ID"
+                    android:layout_below="@id/wheel_spacing_in"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/reo_loc_spinner"
-                    android:entries="@array/reo_loc_entries"
-                    android:layout_column="2" />
-
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
-
+                    android:entries="@array/reo_loc_entries" />
                 <TextView
+                    android:layout_below="@id/reo_loc_spinner"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/DB_str"
-                    android:id="@+id/DB_textview_ID"
-                    android:singleLine="true" />
+                    android:id="@+id/DB_textview_ID"  />
 
                 <Spinner
+                    android:layout_toRightOf="@id/DB_textview_ID"
+                    android:layout_below="@id/reo_loc_spinner"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/DB_spinner"
-                    android:layout_column="2" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
-
+                    android:id="@+id/DB_spinner"  />
                 <TextView
+                    android:layout_below="@id/DB_spinner"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/DB_spacing_str"
-                    android:id="@+id/DB_spacing_textview_ID"
-                    android:singleLine="true" />
+                    android:id="@+id/DB_spacing_textview_ID" />
 
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/DB_spacing_textview_ID"
+                    android:layout_below="@id/DB_spinner"
+                    android:layout_width="@dimen/width_edittext"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="150"
                     android:id="@+id/DB_spacing_in"
                     android:singleLine="true"
-                    android:layout_column="2" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
+                    android:layout_column="1" />
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_below="@id/DB_spacing_in"
+                    android:layout_width="@dimen/width_textview"
                     android:layout_height="wrap_content"
                     android:text="Design"
                     android:id="@+id/button_des"
-                    android:layout_column="0"
-                    android:layout_marginTop="20dip" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
+                    android:layout_marginTop="20dip"
+                    android:layout_alignRight="@+id/DB_spacing_textview_ID" />
                 <TextView
+                    android:layout_below="@id/button_des"
                     android:paddingRight="@dimen/rpad"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
@@ -258,13 +189,7 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="design results here"
                     android:id="@+id/report"
-                    android:singleLine="false"
-                    android:layout_column="0" />
-            </TableRow>
+                    android:singleLine="false" />
 
-        </TableLayout>
-
-    </LinearLayout>
-
-
+        </RelativeLayout>
 </ScrollView>

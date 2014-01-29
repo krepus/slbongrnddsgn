@@ -66,8 +66,11 @@ public class MyDouble {
                 return mValue * 25.4d * 25.4d;
 
             //modulus
-            case psi_per_in:
-                return mValue * 0.00027144713752631d;
+            case kPa_per_mm:
+                return mValue * 0.001d;
+
+            case psf_per_in:
+                return mValue * 0.00000188504956615d;
 
             default:
                 return mValue;
@@ -110,8 +113,11 @@ public class MyDouble {
                     return new MyDouble(v() / 25.4d / 25.4d, Unit.in2);
 
                 //modulus
-                case psi_per_in:
-                    return new MyDouble(v() / 3683.958538347314d, Unit.MPa_per_mm);
+                case kPa_per_mm:
+                    return new MyDouble(v() * 1000.d, Unit.kPa_per_mm);
+
+                case psf_per_in:
+                    return new MyDouble(v() * 530490.0295220133d, Unit.psf_per_in);
 
                 default:
                     return new MyDouble(mValue, mUnit);
@@ -159,8 +165,11 @@ public class MyDouble {
                     return v() / pow(25.4d, 2);
 
                 //modulus
-                case psi_per_in:
-                    return v() / 3683.958538347314d;
+                case kPa_per_mm:
+                    return v() * 1.d / 1000.d;
+
+                case psf_per_in:
+                    return v() * 530490.0295220133d;
 
                 default:
                     return v();
@@ -198,6 +207,6 @@ public class MyDouble {
 
     public static enum Unit {
         mm, mm2, in, in2, m, ft, N, kN,
-        lbf, kip, kipft, kNm, MPa, MPa_per_mm, ksi, psi, psi_per_in
+        lbf, kip, kipft, kNm, MPa, kPa_per_mm, MPa_per_mm, ksi, psi, psf_per_in
     }
 }

@@ -23,28 +23,12 @@ public class MainActivity extends Activity {
 
         //set defaults
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preference, false);
-
         setContentView(R.layout.activity_main);
 
-
-        /**
-         Context mCtxt = this;
-         FragmentManager fragmentManager = getSupportFragmentManager();
-         mTabHost = new android.support.v4.app.FragmentTabHost(mCtxt);
-         mTabHost.setup(mCtxt, fragmentManager, R.id.fragment_container);
-
-         // mTabHost.addTab(mTabHost.newTabSpec("design brief").setIndicator("design brief"),
-         //         DesignBriefFragment.class, null);
-         mTabHost.addTab(mTabHost.newTabSpec("design input").setIndicator("design input"),
-         WheelLoadFragment.class, null);
-         // mTabHost.addTab(mTabHost.newTabSpec("design out").setIndicator("design out"),
-         //      DesignOutFragment.class, null);
-
-         //return mTabHost;
-
-         setContentView(mTabHost);
-
-         */
+        //avoid overlapping fragment
+        if (savedInstanceState != null) {
+            return;
+        }
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -83,7 +67,9 @@ public class MainActivity extends Activity {
                 dialog.setContentView(R.layout.about_dialog);
                 dialog.setTitle("About the app");
                 TextView text = (TextView) dialog.findViewById(R.id.about_text);
-                text.setText("This app will check the design thickness of a slab with specified design parameters");
+                text.setText("This app will calculate the point load capacity of a slab on ground" +
+                        "in accordance with Concrete Society Report TR34 - Concrete " +
+                        "industrial ground floors, 3rd edition");
 
                 // ImageView image = (ImageView) dialog.findViewById(R.id.image);
                 // image.setImageResource(R.drawable.icon);
@@ -94,7 +80,6 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
 }

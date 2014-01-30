@@ -69,8 +69,8 @@ public class MyDouble {
             case kPa_per_mm:
                 return mValue * 0.001d;
 
-            case psf_per_in:
-                return mValue * 0.00000188504956615d;
+            case ksf_per_in:
+                return mValue * 0.00188504956615495d;
 
             default:
                 return mValue;
@@ -116,8 +116,8 @@ public class MyDouble {
                 case kPa_per_mm:
                     return new MyDouble(v() * 1000.d, Unit.kPa_per_mm);
 
-                case psf_per_in:
-                    return new MyDouble(v() * 530490.0295220133d, Unit.psf_per_in);
+                case ksf_per_in:
+                    return new MyDouble(v() * 530.4900295220133d, Unit.ksf_per_in);
 
                 default:
                     return new MyDouble(mValue, mUnit);
@@ -168,8 +168,8 @@ public class MyDouble {
                 case kPa_per_mm:
                     return v() * 1.d / 1000.d;
 
-                case psf_per_in:
-                    return v() * 530490.0295220133d;
+                case ksf_per_in:
+                    return v() * 530.4900295220133d;
 
                 default:
                     return v();
@@ -207,6 +207,6 @@ public class MyDouble {
 
     public static enum Unit {
         mm, mm2, in, in2, m, ft, N, kN,
-        lbf, kip, kipft, kNm, MPa, kPa_per_mm, MPa_per_mm, ksi, psi, psf_per_in
+        lbf, kip, kipft, kNm, MPa, kPa_per_mm, ksi, psi, ksf_per_in
     }
 }

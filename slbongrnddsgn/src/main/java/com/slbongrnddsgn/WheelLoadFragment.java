@@ -23,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.R.layout.simple_spinner_dropdown_item;
+import static android.R.layout.simple_spinner_item;
 import static com.slbongrnddsgn.MyDouble.Unit.*;
 
 public class WheelLoadFragment extends Fragment implements View.OnClickListener {
@@ -73,11 +75,12 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mSavedInstanceState = savedInstanceState;
+        //mSavedInstanceState = savedInstanceState;
         view = inflater.inflate(R.layout.wheel_load_main, container, false);
 
         Button b = (Button) view.findViewById(R.id.button_des);
         b.setOnClickListener(this);
+
         //return v;
         // Log.i(TAG, "onCreateView");
         return view;
@@ -108,28 +111,10 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
     public void onResume() {
         super.onResume();
 
-        updateInputUI();
+        updateUI();
+        //updateSpinner();
 
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Boolean barlistchanged = Boolean.parseBoolean(sharedPref.getString(
-                getString(R.string.BARLIST_RESET), "false"));
-        if (barlistchanged) {
-            updateSpinner();
-        } else {
-            updateSpinner();
-            //restore spinner selection
-            Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
-            DBspinner.setSelection(
-                    Integer.parseInt(sharedPref.getString(getString(R.string.MIN_TENSION_BAR_DIA_ITEM_SELECTION), "0")));
-
-
-            Spinner relocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
-            relocspinner.setSelection(
-                    Integer.parseInt(sharedPref.getString(getString(R.string.REOLOC_ITEM_SELECTION), "0")));
-
-
-        }
         // Log.i(TAG, "onResume");
 
 
@@ -200,7 +185,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
         //return bundle;
     }
 
-    private void updateInputUI() {
+    private void updateUI() {
         /**
          * populate spinner_minDB
          */
@@ -241,7 +226,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
             v.setText(getString(R.string.hf_str) + ", " + in.toString());
 
             v = (TextView) view.findViewById(R.id.ks_textview_ID);
-            v.setText(getString(R.string.ks_str) + ", " + psf_per_in);
+            v.setText(getString(R.string.ks_str) + ", " + ksf_per_in);
 
             /*v = (TextView) view.findViewById(R.id.Pu_textview_ID);
             v.setText(getString(R.string.Pu_str) + ", " + kip.toString());*/
@@ -279,16 +264,16 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
         v.setText(sharedPref.getString(getString(R.string.WHEEL_SPACING), "2500"));
 
         v = (EditText) view.findViewById(R.id.DB_spacing_in);
-        v.setText(sharedPref.getString(getString(R.string.DB_spacing_str), "200"));
+        v.setText(sharedPref.getString(getString(R.string.BAR_SPACING), "200"));
 
-        SharedPreferences.Editor ed = sharedPref.edit();
-        ed.putString(getString(R.string.UNIT_CHANGED), "false");
-        ed.commit();
+
+        //update spinnners
+        updateSpinner();
 
     }
 
     private void updateSpinner() {
-        //read preferences
+        //set up spinner selections, re-read bar selection, might have changed
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String barlist_input_str = sharedPref.getString(getString(R.string.BARLIST), "");
 
@@ -304,18 +289,35 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
         }
 
         Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, strarrBarlist);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, strarrBarlist);
+        arrayAdapter.setDropDownViewResource(simple_spinner_dropdown_item);
         DBspinner.setAdapter(arrayAdapter);
-/**
- Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
- ArrayAdapter<String> reolocarrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, R.array.reo_loc_entries);
- reolocspinner.setAdapter(reolocarrayAdapter);
- */
-        //
-        SharedPreferences.Editor ed = sharedPref.edit();
-        ed.putString(getString(R.string.BARLIST_RESET), "false");
-        ed.commit();
+
+
+        String[] reolocentries = new String[2];
+        reolocentries[0] = getString(R.string.topbarstr1);
+        reolocentries[1] = getString(R.string.topbarstr2);
+
+        Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
+        ArrayAdapter<String> reolocarrayAdapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, reolocentries);
+      //  arrayAdapter.setDropDownViewResource(simple_spinner_dropdown_item);
+        reolocspinner.setAdapter(reolocarrayAdapter);
+
+
+        //restore reoloc spinner selection from previous, selection is fixed
+        reolocspinner.setSelection(
+                Integer.parseInt(sharedPref.getString(getString(R.string.REOLOC_ITEM_SELECTION), "0")));
+
+        // reset to zero if bar list preference has changed has changed
+        int previousDBselectedItem = Integer.parseInt(sharedPref.getString(getString(R.string.MIN_TENSION_BAR_DIA_ITEM_SELECTION), "0"));
+        if (strarrBarlist.length < previousDBselectedItem + 1) {
+            DBspinner.setSelection(0);
+        } else {
+            DBspinner.setSelection(previousDBselectedItem);
+
+        }
+
+
     }
 
 
@@ -372,7 +374,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
 
             } else {
                 mHf = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SLAB_THICKNESS), "")), in);
-                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), psf_per_in);/*
+                mKs = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.SUBGRADE), "")), ksf_per_in);/*
                 mPu = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.POINT_LOAD), "")), kip);*/
                 ma = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.EQUIV_RADIUS), "")), in);
                 mX = new MyDouble(Double.parseDouble(sp.getString(getString(R.string.WHEEL_SPACING), "")), in);
@@ -435,7 +437,7 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
 
             if (mUnit.equals("SI")) {
 
-                inputrep = "Design Input\r\n" +
+                inputrep = "DESIGN INPUT \r\n" +
                         "Slab thickness = " + mHf.toString() + "\r\n" +
                         "Subgrade reaction = " + mKs.toString() + "\r\n" +
                         "Radius of relative stiffness = " + sog.mLr.toString() + "\r\n" +
@@ -445,31 +447,31 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
                         "Bar diameter = " + mDB.toString() + "\r\n" +
                         "Bar spacing = " + mScc.toString() + "\r\n";
 
-                mReport = "Slab capacities (see notes below): \r\n\r\n" +
+                mReport = "SLAB CAPACITY (see notes below): \r\n\r\n" +
                         "Interior location, single point = " + sog.phiPn_Interior_single.toUnit(kN).toString() + "\r\n" +
-                        "Interior location, dual point at " + sog.mSload.toString() + " spacing = " + sog.phiPn_Interior_dual.toUnit(kN).toString() + "\r\n" +
+                        "Interior location, dual point = " + sog.phiPn_Interior_dual.toUnit(kN).toString() + " @ " + sog.mSload.toString() + "\r\n" +
                         "Edge location, single point = " + sog.phiPn_edge_single.toUnit(kN).toString() + "\r\n" +
-                        "Edge location, dual point at " + sog.mSload.toString() + " spacing = " + sog.phiPn_edge_dual.toUnit(kN).toString() + "\r\n" +
+                        "Edge location, dual point = " + sog.phiPn_edge_dual.toUnit(kN).toString() + " @ " + sog.mSload.toString() + "\r\n" +
                         "\r\n";
 
             } else {
                 //get bar diameter
                 Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
 
-                inputrep = "Design Input\r\n" +
+                inputrep = "DESIGN INPUT \r\n" +
                         "Slab thickness = " + mHf.toUnit(in).toString() + "\r\n" +
-                        "Subgrade reaction = " + mKs.toUnit(psf_per_in).toString() + "\r\n" +
+                        "Subgrade reaction = " + mKs.toUnit(ksf_per_in).toString() + "\r\n" +
                         "Radius of relative stiffness = " + sog.mLr.toUnit(in).toString() + "\r\n" +
                         "Equivalent radius of loaded area = " + ma.toUnit(in).toString() + "\r\n" +
                         "Load spacing for dual point loads = " + mX.toUnit(in).toString() + "\r\n" +
                         "Reinforcement location = " + reolocstr[mReoLoc] + "\r\n" +
                         "Bar number = " + DBspinner.getSelectedItem().toString() + "\r\n" +
                         "Bar spacing = " + mScc.toUnit(in).toString() + "\r\n";
-                mReport = "Slab capacities: \r\n\r\n" +
+                mReport = "SLAB CAPACITY (see notes below): \r\n\r\n" +
                         "Interior location, single point = " + sog.phiPn_Interior_single.toUnit(kip).toString() + "\r\n" +
-                        "Interior location, dual point at " + sog.mSload.toUnit(in).toString() + " spacing = " + sog.phiPn_Interior_dual.toUnit(kip).toString() + "\r\n" +
+                        "Interior location, dual point = " + sog.phiPn_Interior_dual.toUnit(kip).toString() + " @ " + sog.mSload.toUnit(in).toString() + "\r\n" +
                         "Edge location, single point = " + sog.phiPn_edge_single.toUnit(kip).toString() + "\r\n" +
-                        "Edge location, dual point at " + sog.mSload.toUnit(in).toString() + " spacing = " + sog.phiPn_edge_dual.toUnit(kip).toString() + "\r\n" +
+                        "Edge location, dual point = " + sog.phiPn_edge_dual.toUnit(kip).toString() + " @ " + sog.mSload.toUnit(in).toString() + "\r\n" +
                         "\r\n";
             }
 

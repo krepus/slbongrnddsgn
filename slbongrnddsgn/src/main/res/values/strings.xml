@@ -68,9 +68,9 @@
     </array>
 
 
-    <array name="reo_loc_entries">
+    <string-array name="reo_loc_entries">
         <item>@string/topbarstr1</item>
         <item>@string/topbarstr2</item>
-    </array>
+    </string-array>
 
 </resources>

@@ -146,7 +146,7 @@ public class SlabOnGround {
             phiPn_edge_single = getPhiPn_edge_single(phiMn_hogging, phiMn_sagging, mLr, mRadius);
             phiPn_edge_dual = getPhiPn_edge_dual(phiMn_hogging, phiMn_sagging, mLr, mRadius, mSload);
 
-            mNotes = "Provide nominal top reinforcement for temperature and shrinkage";
+            mNotes = "\r\nNOTES: \r\nProvide nominal top reinforcement for temperature and shrinkage";
         }
 
 

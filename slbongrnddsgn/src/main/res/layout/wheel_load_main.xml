@@ -131,8 +131,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/reo_loc_spinner"
-                    android:entries="@array/reo_loc_entries" />
+                    android:id="@+id/reo_loc_spinner" />
                 <TextView
                     android:layout_below="@id/reo_loc_spinner"
                     android:paddingRight="@dimen/rpad"

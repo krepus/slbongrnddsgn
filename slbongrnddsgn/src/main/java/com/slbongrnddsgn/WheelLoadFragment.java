@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.R.layout.simple_dropdown_item_1line;
 import static android.R.layout.simple_spinner_dropdown_item;
 import static android.R.layout.simple_spinner_item;
 import static com.slbongrnddsgn.MyDouble.Unit.*;
@@ -288,21 +289,19 @@ public class WheelLoadFragment extends Fragment implements View.OnClickListener 
             strarrBarlist[0] = "menu|options";
         }
 
-        Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, strarrBarlist);
-        arrayAdapter.setDropDownViewResource(simple_spinner_dropdown_item);
-        DBspinner.setAdapter(arrayAdapter);
-
-
         String[] reolocentries = new String[2];
         reolocentries[0] = getString(R.string.topbarstr1);
         reolocentries[1] = getString(R.string.topbarstr2);
 
+        Spinner DBspinner = (Spinner) view.findViewById(R.id.DB_spinner);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, strarrBarlist);
         Spinner reolocspinner = (Spinner) view.findViewById(R.id.reo_loc_spinner);
         ArrayAdapter<String> reolocarrayAdapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, reolocentries);
-      //  arrayAdapter.setDropDownViewResource(simple_spinner_dropdown_item);
-        reolocspinner.setAdapter(reolocarrayAdapter);
 
+        arrayAdapter.setDropDownViewResource(simple_spinner_dropdown_item);
+        reolocarrayAdapter.setDropDownViewResource(simple_spinner_dropdown_item);
+        DBspinner.setAdapter(arrayAdapter);
+        reolocspinner.setAdapter(reolocarrayAdapter);
 
         //restore reoloc spinner selection from previous, selection is fixed
         reolocspinner.setSelection(

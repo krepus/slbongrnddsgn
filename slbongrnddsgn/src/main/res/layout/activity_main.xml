@@ -6,6 +6,17 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
+    <com.google.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        ads:adUnitId="@string/MY_AD_UNIT_ID"
+        ads:adSize="BANNER"
+        ads:addTestDevice="@string/MY_TEST_DEVICE"
+        ads:loadAdOnCreate="true"/>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragmentContainer"
         android:orientation="vertical"

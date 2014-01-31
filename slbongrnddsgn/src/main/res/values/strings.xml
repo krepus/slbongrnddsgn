@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="MY_AD_UNIT_ID">a152ea7bf18ff5e</string>
+    <string name="MY_TEST_DEVICE">0176BD092B2BDC31EBDFBF2F0211006B</string>
     <string name="app_name">Slab on ground</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

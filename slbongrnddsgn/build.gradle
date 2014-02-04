@@ -1,24 +1,46 @@
 apply plugin: 'android'
-
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
         minSdkVersion 11
         targetSdkVersion 19
-        versionCode 1
+        versionCode 4
         versionName "1.0"
     }
-    buildTypes {
+
+    signingConfigs {
+        debug {
+
+            storeFile file('c:/users/j0sua3/.android/debug.keystore')
+
+        }
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            keyAlias 'sibuyas apps key'
+            keyPassword 'm2F7Q1iombCGUjjPyvLw'
+            storeFile file('D:/Androidstudio/android studio IDE/sdk/keystore/sibuyas apps key')
+            storePassword 'm2F7Q1iombCGUjjPyvLw'
         }
     }
-}
 
+    buildTypes {
+        release {
+            /*runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt', 'proguard-rules.txt')*/
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+
+       /* debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }*/
+    }
+
+
+}
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
-    compile files('libs/GoogleAdMobAdsSdk-6.4.1.jar')
+    compile files('src/main/libs/GoogleAdMobAdsSdk-6.4.1.jar')
 }

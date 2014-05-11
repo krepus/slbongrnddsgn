@@ -11,7 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 public class MainActivity extends Activity {
+
+    private InterstitialAd interstitial;
 
     //design input variables
 
@@ -20,6 +25,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Create the interstitial.
+        interstitial = new InterstitialAd(this);
+        interstitial.setAdUnitId(getString(R.string.MY_AD_UNIT_ID));
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(getString(R.string.MY_testdevice))
+                .build();
+
+        interstitial.loadAd(adRequest);
 
         //set defaults
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preference, false);
@@ -81,5 +96,17 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        //Log.i(TAG, "main onPause");
+
+        //display interstital
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+            mOnPauseDonateClicked = false;
+        }
+
+    }
 
 }

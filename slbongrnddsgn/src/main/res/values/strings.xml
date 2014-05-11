@@ -75,4 +75,6 @@
         <item>@string/topbarstr2</item>
     </string-array>
 
+    <integer name="google_play_services_version">4323000</integer>
+
 </resources>
